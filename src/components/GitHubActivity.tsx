@@ -22,14 +22,14 @@ export default function GitHubActivity() {
             <GitHubCalendar
               username="wwwwwis"
               colorScheme={theme === 'dark' ? 'dark' : 'light'}
-              blockSize={13}
-              blockMargin={4}
+              blockSize={14}
+              blockMargin={5}
               fontSize={13}
               showTotalCount
               showColorLegend
               theme={{
-                light: ['#efeeea', '#c8c7c2', '#94938e', '#5a5956', '#111111'],
-                dark:  ['#1a1a18', '#3a3a36', '#666561', '#a3a29d', '#f4f3ef'],
+                light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
+                dark:  ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
               }}
             />
           </div>
