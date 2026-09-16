@@ -45,7 +45,7 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
 
     setOpen(false)
 
-    window.history.replaceState(null, '', `#${id}`)
+    window.history.replaceState(null, '', '/')  
   }
 
   return (
@@ -61,7 +61,7 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
               behavior: 'smooth',
             })
 
-            window.history.replaceState(null, '', '#top')
+            window.history.replaceState(null, '', '/')
             setOpen(false)
           }}
           className="text-xl font-extrabold tracking-tight"
