@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   Theme tokens
-   ============================================================ */
-
 :root {
   --bg: 255 255 255;
   --bg-soft: 246 246 244;
@@ -33,10 +29,6 @@
   --inverse-ink: 17 17 17;
   color-scheme: dark;
 }
-
-/* ============================================================
-   Base
-   ============================================================ */
 
 html {
   scroll-behavior: smooth;
@@ -66,10 +58,6 @@ body {
   }
 }
 
-/* ============================================================
-   Scrollbar
-   ============================================================ */
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -96,10 +84,6 @@ body {
   background: transparent;
 }
 
-/* ============================================================
-   Reveal on scroll
-   ============================================================ */
-
 .reveal {
   opacity: 0;
   transform: translateY(14px);
@@ -110,10 +94,6 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* ============================================================
-   Background grain
-   ============================================================ */
 
 .bg-grain {
   background-image: radial-gradient(
@@ -326,7 +306,6 @@ body {
 
 ::view-transition-new(root) {
   z-index: 2;
-  will-change: clip-path;
   animation: theme-wipe 400ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
@@ -339,50 +318,8 @@ body {
   }
 }
 
-::view-transition-new(root)::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-  will-change: clip-path, opacity;
-
-  background: linear-gradient(
-    135deg,
-    rgba(0, 200, 255, 0) 0%,
-    rgba(0, 200, 255, 0.55) 40%,
-    rgba(63, 174, 85, 0.85) 50%,
-    rgba(63, 174, 85, 0.55) 60%,
-    rgba(63, 174, 85, 0) 100%
-  );
-
-  clip-path: polygon(
-    var(--wipe-x, 100%) 0%,
-    calc(var(--wipe-x, 100%) - 8px) 0%,
-    calc(var(--wipe-x, 100%) - 8px) 100%,
-    var(--wipe-x, 100%) 100%
-  );
-
-  animation: theme-wipe-glow 400ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
-}
-
-@keyframes theme-wipe-glow {
-  from {
-    --wipe-x: 100%;
-    opacity: 0.9;
-  }
-  85% {
-    opacity: 0.9;
-  }
-  to {
-    --wipe-x: 0%;
-    opacity: 0;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-new(root),
-  ::view-transition-new(root)::after {
+  ::view-transition-new(root) {
     animation: none !important;
   }
 }
