@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom'
-import { useTheme } from '@/hooks/useTheme'
 import BackgroundGrain from './components/BackgroundGrain'
 import ScrollProgress from './components/ScrollProgress'
 import Navbar from './components/Navbar'
@@ -14,18 +13,12 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import NotFound from './pages/NotFound'
 
-function HomePage({
-  theme,
-  toggleTheme,
-}: {
-  theme: 'light' | 'dark'
-  toggleTheme: () => void
-}) {
+function HomePage() {
   return (
     <div id="top">
       <BackgroundGrain />
       <ScrollProgress />
-      <Navbar theme={theme} onToggleTheme={toggleTheme} />
+      <Navbar />
       <main>
         <Hero />
         <Marquee />
@@ -42,14 +35,9 @@ function HomePage({
 }
 
 export default function App() {
-  const { theme, toggleTheme } = useTheme()
-
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<HomePage theme={theme} toggleTheme={toggleTheme} />}
-      />
+      <Route path="/" element={<HomePage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
