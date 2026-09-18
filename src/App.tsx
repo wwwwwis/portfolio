@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import BackgroundGrain from './components/BackgroundGrain'
 import ScrollProgress from './components/ScrollProgress'
@@ -11,6 +12,8 @@ import GitHubActivity from './components/GitHubActivity'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import CommandPalette from './components/CommandPalette'
+import CommandTrigger from './components/CommandTrigger'
 import NotFound from './pages/NotFound'
 
 function HomePage() {
@@ -35,10 +38,29 @@ function HomePage() {
 }
 
 export default function App() {
+  const [commandOpen, setCommandOpen] = useState(false)
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const isK = e.key.toLowerCase() === 'k'
+      const modifier = e.metaKey || e.ctrlKey
+      if (isK && modifier) {
+        e.preventDefault()
+        setCommandOpen((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <CommandTrigger onOpen={() => setCommandOpen(true)} />
+      <CommandPalette open={commandOpen} onOpenChange={setCommandOpen} />
+    </>
   )
 }
