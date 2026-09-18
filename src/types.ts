@@ -1,11 +1,14 @@
 export interface Project {
-  title: string;
-  type: string;
-  tech: string;
-  year: string;
-  desc: string;
-  url?: string;  
-  image?: string; 
+  title: string
+  tagline?: string
+  type: string
+  tech: string
+  year: string
+  desc: string
+  awards?: string[]
+  url: string
+  repo?: string
+  image: string
 }
 
 export interface ExperienceEntry {
@@ -13,7 +16,7 @@ export interface ExperienceEntry {
   role: string
   company: string
   description: string
-  logo?: string
+  logo: string
 }
 
 export interface StackGroup {

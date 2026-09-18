@@ -19,6 +19,32 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
+type ViewTransitionCallback = () => void
+
+type DocumentWithViewTransition = Document & {
+  startViewTransition?: (cb: ViewTransitionCallback) => {
+    finished: Promise<void>
+    ready: Promise<void>
+    updateCallbackDone: Promise<void>
+    skipTransition: () => void
+  }
+}
+
+function supportsViewTransition(): boolean {
+  return (
+    typeof document !== 'undefined' &&
+    typeof (document as DocumentWithViewTransition).startViewTransition ===
+      'function'
+  )
+}
+
+function prefersReducedMotion() {
+  return (
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+}
+
 function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'light'
   try {
@@ -42,6 +68,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, theme)
     } catch {
+      // ignore
     }
   }, [theme])
 
@@ -58,10 +85,19 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('storage', onStorage)
   }, [])
 
-  const toggleTheme = useCallback(
-    () => setTheme((t) => (t === 'dark' ? 'light' : 'dark')),
-    []
-  )
+  const toggleTheme = useCallback(() => {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark'
+
+    if (!supportsViewTransition() || prefersReducedMotion()) {
+      setTheme(next)
+      return
+    }
+
+    const doc = document as DocumentWithViewTransition
+    doc.startViewTransition!(() => {
+      setTheme(next)
+    })
+  }, [theme])
 
   const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme])
 
